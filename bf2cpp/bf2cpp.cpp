@@ -69,15 +69,19 @@ int main(int argc, char* argv[])
 		switch (program[i])
 		{
 		case '>':
+			++ptr;
 			output_file << "\t++ptr;\n";
 			break;
 		case '<':
+			--ptr;
 			output_file << "\t--ptr;\n";
 			break;
 		case '+':
+			++ * ptr;
 			output_file << "\t++*ptr;\n";
 			break;
 		case '-':
+			-- * ptr;
 			output_file << "\t--*ptr;\n";
 			break;
 		case '.':
@@ -86,29 +90,29 @@ int main(int argc, char* argv[])
 		case ',':
 			output_file << "\tstd::cin >> *ptr;\n";
 			break;
-		//case '[':
-		//	if (*ptr == 0)
-		//	{
-		//		// Skip loop body
-		//		int nested_loops = 1;
-		//		while (nested_loops > 0)
-		//		{
-		//			++i;
-		//			if (program[i] == '[')
-		//				++nested_loops;
-		//			else if (program[i] == ']')
-		//				--nested_loops;
-		//		}
-		//	}
-		//	else
-		//		loop_stack.push(i);
-		//	break;
-		//case ']':
-		//	if (*ptr != 0)
-		//		i = loop_stack.top();
-		//	else
-		//		loop_stack.pop();
-		//	break;
+		case '[':
+			if (*ptr == 0)
+			{
+				// Skip loop body
+				int nested_loops = 1;
+				while (nested_loops > 0)
+				{
+					++i;
+					if (program[i] == '[')
+						++nested_loops;
+					else if (program[i] == ']')
+						--nested_loops;
+				}
+			}
+			else
+				loop_stack.push(i);
+			break;
+		case ']':
+			if (*ptr != 0)
+				i = loop_stack.top();
+			else
+				loop_stack.pop();
+			break;
 		default:
 			break;
 		}
