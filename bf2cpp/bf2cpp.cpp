@@ -13,29 +13,29 @@ uint8_t* ptr = mem.data();
 
 int main(int argc, char* argv[])
 {
-	//if (argc < 2)
-	//{
-	//	std::cout << "No input file supplied.\nUse \"bf2cpp --help\" for more information\n";
-	//	return 1;
-	//}
+	if (argc < 2)
+	{
+		std::cout << "No input file supplied.\nUse \"bf2cpp --help\" for more information\n";
+		return 1;
+	}
 
-	//if (std::string(argv[1]) == "--help")
-	//{
-	//	std::cout << "Available commands:\n\n\t--help\t\tDisplays this screen\n\t--version\tDisplays installed version\n";
-	//	return 1;
-	//}
+	if (std::string(argv[1]) == "--help")
+	{
+		std::cout << "Available commands:\n\n\t--help\t\tDisplays this screen\n\t--version\tDisplays installed version\n";
+		return 1;
+	}
 
-	//if (std::string(argv[1]) == "--version")
-	//{
-	//	std::cout << "bf2cpp 1.0\nhttps://github.com/stumburs\n";
-	//	return 1;
-	//}
+	if (std::string(argv[1]) == "--version")
+	{
+		std::cout << "bf2cpp 1.0\nhttps://github.com/stumburs\n";
+		return 1;
+	}
 
 	// Create input file
-	//std::string file_path = argv[1];
-	std::string file_path = "hello_world.bf";
+	std::string file_path = argv[1];
 	std::ifstream input_file(file_path);
-	std::ofstream output_file("out.cpp");
+	std::string output_file_path = file_path.substr(0, file_path.find_last_of('.')) + ".cpp";
+	std::ofstream output_file(output_file_path);
 
 	// Check if file successfully opened
 	if (!input_file.is_open())
