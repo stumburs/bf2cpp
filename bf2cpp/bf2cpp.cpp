@@ -62,7 +62,6 @@ int main(int argc, char* argv[])
 	output_file << "{\n";
 
 	// Transpile program and write to file
-	std::stack<std::streampos> loop_stack; // stack to keep track of loop positions
 	std::size_t i = 0;
 	std::size_t indent_level = 1;
 	while (i < program.length())
@@ -88,7 +87,7 @@ int main(int argc, char* argv[])
 			output_file << std::string(indent_level, '\t') << "std::cin >> *ptr;\n";
 			break;
 		case '[':
-			output_file << std::string(indent_level, '\t') << "while (*ptr != 0)\n" << std::string(indent_level, '\t')<< "{\n";
+			output_file << std::string(indent_level, '\t') << "while (*ptr != 0)\n" << std::string(indent_level, '\t') << "{\n";
 			indent_level++;
 			break;
 		case ']':
@@ -98,8 +97,6 @@ int main(int argc, char* argv[])
 			break;
 		}
 		++i;
-		if (loop_stack.size() == 0 && i >= program.length())
-			break; // exit loop if all loops have been exited
 	}
 
 	// Close main function
