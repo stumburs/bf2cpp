@@ -64,55 +64,36 @@ int main(int argc, char* argv[])
 	// Transpile program and write to file
 	std::stack<std::streampos> loop_stack; // stack to keep track of loop positions
 	std::size_t i = 0;
+	std::size_t indent_level = 1;
 	while (i < program.length())
 	{
 		switch (program[i])
 		{
 		case '>':
-			++ptr;
-			output_file << "\t++ptr;\n";
+			output_file << std::string(indent_level, '\t') << "++ptr;\n";
 			break;
 		case '<':
-			--ptr;
-			output_file << "\t--ptr;\n";
+			output_file << std::string(indent_level, '\t') << "--ptr;\n";
 			break;
 		case '+':
-			++ * ptr;
-			output_file << "\t++*ptr;\n";
+			output_file << std::string(indent_level, '\t') << "++*ptr;\n";
 			break;
 		case '-':
-			-- * ptr;
-			output_file << "\t--*ptr;\n";
+			output_file << std::string(indent_level, '\t') << "--*ptr;\n";
 			break;
 		case '.':
-			output_file << "\tstd::cout << *ptr;\n";
+			output_file << std::string(indent_level, '\t') << "std::cout << *ptr;\n";
 			break;
 		case ',':
-			output_file << "\tstd::cin >> *ptr;\n";
+			output_file << std::string(indent_level, '\t') << "std::cin >> *ptr;\n";
 			break;
 		case '[':
-			if (*ptr == 0)
-			{
-				// Skip loop body
-				int nested_loops = 1;
-				while (nested_loops > 0)
-				{
-					++i;
-					if (program[i] == '[')
-						++nested_loops;
-					else if (program[i] == ']')
-						--nested_loops;
-				}
-			}
-			else
-				loop_stack.push(i);
+			output_file << std::string(indent_level, '\t') << "while (*ptr != 0)\n" << std::string(indent_level, '\t')<< "{\n";
+			indent_level++;
 			break;
 		case ']':
-			if (*ptr != 0)
-				i = loop_stack.top();
-			else
-				loop_stack.pop();
-			break;
+			indent_level--;
+			output_file << std::string(indent_level, '\t') << "}\n";
 		default:
 			break;
 		}
