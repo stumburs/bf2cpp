@@ -6,11 +6,6 @@
 #include <cstring>
 #include <array>
 
-// Init memory
-constexpr std::size_t mem_size = 30000;
-std::array<uint8_t, mem_size> mem = { 0 };
-uint8_t* ptr = mem.data();
-
 int main(int argc, char* argv[])
 {
 	if (argc < 2)
